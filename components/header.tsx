@@ -26,11 +26,19 @@ const Header: React.FC<HeaderProps> = () => {
             </div>
             <div className="flex items-center">
                 <GiHamburgerMenu className="sm:hidden w-7 h-7" />
-                <div className="sm:flex sm:flex-row gap-3 sm:visible hidden">
-                    <a>TOKEN</a>
-                    <a>MEMES</a>
-                    <a>SOCIALS</a>
-                    <a>BUY</a>
+                <div className="sm:flex sm:flex-row gap-7 sm:visible hidden">
+                    <a className="hover:bg-black hover:text-primaryColor rounded-lg hover:transition-all px-4 py-2 duration-300 cursor-pointer">
+                        TOKEN
+                    </a>
+                    <a className="hover:bg-black  hover:text-primaryColor rounded-lg hover:transition-all px-4 py-2 duration-300 cursor-pointer">
+                        MEMES
+                    </a>
+                    <a className="hover:bg-black hover:text-primaryColor rounded-lg hover:transition-all px-4 py-2 duration-300 cursor-pointer">
+                        SOCIALS
+                    </a>
+                    <a className="hover:bg-black hover:text-primaryColor rounded-lg hover:transition-all px-4 py-2 duration-300 cursor-pointer">
+                        BUY TOKEN
+                    </a>
                 </div>
             </div>
         </div>
