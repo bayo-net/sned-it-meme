@@ -4,9 +4,7 @@ import { FaTelegram } from 'react-icons/fa'
 import { FaSquareXTwitter } from 'react-icons/fa6'
 import { GiHamburgerMenu } from 'react-icons/gi'
 
-interface HeaderProps {}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header = () => {
     return (
         <div
             className={`
