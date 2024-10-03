@@ -1,5 +1,4 @@
 'use client'
-import Header from '@/components/header'
 import { InfiniteLogoScroll } from '@/components/logoInfiniteScrolling'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -23,7 +22,7 @@ export default function Home() {
                                 Hello my name Sned. <br />I want to go home.{' '}
                                 <br /> Come with me?
                             </h1>
-                            <button className="hidden sm:block bg-primaryColor text-2xl text-center w-full sm:w-[333px] px-5 py-2 shadow-black shadow-custom ">
+                            <button className="hidden sm:block bg-primaryColor text-2xl text-center w-full sm:w-[333px] px-5 py-2 ">
                                 Buy Token
                             </button>
                         </div>

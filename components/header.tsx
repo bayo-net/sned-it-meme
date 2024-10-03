@@ -3,7 +3,6 @@
 import { useRouter } from 'next/navigation'
 import { FaTelegram } from 'react-icons/fa'
 import { FaSquareXTwitter } from 'react-icons/fa6'
-import { GiHamburgerMenu } from 'react-icons/gi'
 
 const Header = () => {
     const router = useRouter()
