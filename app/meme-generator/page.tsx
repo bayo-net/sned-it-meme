@@ -242,6 +242,7 @@ const MemeGeneratorPage: React.FC = () => {
                     link.href = canvas.toDataURL()
                     link.click()
                 })
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .catch((error: any) => {
                     console.error('Failed to capture meme image', error)
                 })
