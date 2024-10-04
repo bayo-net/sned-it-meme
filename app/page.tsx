@@ -176,11 +176,16 @@ export default function Home() {
                     >
                         Make meme
                     </button>
-                    <img
-                        src="/snedItImage.png"
-                        alt="buy image"
-                        className="sm:w-[623px] sm:h-[623px]"
-                    />
+                    <div className="relative">
+                        <img
+                            src="/snedItImage.png"
+                            alt="buy image"
+                            className="sm:w-[623px] sm:h-[623px]"
+                        />
+                        <h1 className="absolute sm:top-36 sm:right-4 sm:text-5xl text-2xl top-20 right-5">
+                            SNED IT
+                        </h1>
+                    </div>
                 </section>
                 <section className="py-20 px-7 flex flex-col sm:flex-row justify-center items-center bg-primaryColor sm:w-full">
                     <div>

@@ -7,6 +7,16 @@
     --foreground: #ffffff;
 }
 
+.text-resizable {
+    position: absolute;
+    cursor: move;
+    border: 2px solid black;
+}
+
+.hide-borders {
+    border: none !important;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --background: #ededed;
