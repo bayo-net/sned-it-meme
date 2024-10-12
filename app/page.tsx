@@ -22,7 +22,7 @@ export default function Home() {
                                 Hello my name Sned. <br />I want to go home.{' '}
                                 <br /> Come with me?
                             </h1>
-                            <button className="hidden sm:block bg-primaryColor text-2xl text-center w-full sm:w-[333px] px-5 py-2 ">
+                            <button className="bg-primaryColor text-2xl text-center w-full px-5 py-2 shadow-black shadow-custom sm:w-[333px]">
                                 Buy Token
                             </button>
                         </div>
@@ -77,43 +77,40 @@ export default function Home() {
                     </div>
                 </section>
 
-                <section className="py-20 px-7 flex flex-col justify-center items-center bg-primaryColor sm:w-full sm:flex-row sm:h-full sm:px-7">
-                    <div
-                        className="flex-1 text-center justify-center items-center
-                        sm:items-center sm:justify-between
-                    "
-                    >
-                        <h1 className="uppercase text-5xl font-[family-name:var(--font-hanaleifill-sans)] sm:text-[84px]">
+                <section className="py-20 px-7 flex flex-col justify-center items-center bg-primaryColor w-full">
+                    <div className="max-w-4xl w-full mx-auto text-center">
+                        <h1 className="uppercase text-5xl font-[family-name:var(--font-hanaleifill-sans)] sm:text-[84px] mb-6">
                             Token
                         </h1>
-                        <h1 className="text-center text-[19px] py-6 sm:text-start sm:leading-[47.58px] sm:text-wrap text-2xl">
+                        <h1 className="text-center text-[19px] mb-8 sm:text-2xl sm:leading-[47.58px] max-w-2xl mx-auto">
                             Sned made 420 million $sned tokens and me want to
                             share them with as many degens as possible.
                         </h1>
-                        <Image
-                            src="/teacherImage.png"
-                            width={329}
-                            height={329}
-                            alt="hero image"
-                            className="sm:hidden"
-                        />
-                        <div className="px-4 py-2 bg-secondaryColor shadow-custom w-full">
-                            <h1 className="text-2xl">Total Supply of $sned</h1>
-                            <p className="text-[13px]">420,000,000,000,000</p>
+                        <div className="flex flex-col sm:flex-row items-center justify-center gap-8 w-full">
+                            <Image
+                                src="/teacherImage.png"
+                                width={329}
+                                height={329}
+                                alt="hero image"
+                                className="sm:w-[400px] sm:h-[400px]"
+                            />
+                            <div className="flex flex-col gap-8 w-full sm:w-1/2">
+                                <div className="px-4 py-2 bg-secondaryColor shadow-custom w-full">
+                                    <h1 className="text-2xl">
+                                        Total Supply of $sned
+                                    </h1>
+                                    <p className="text-[13px]">
+                                        420,000,000,000,000
+                                    </p>
+                                </div>
+                                <div className="px-4 py-2 bg-secondaryColor shadow-custom w-full">
+                                    <h1 className="text-2xl">Token Address</h1>
+                                    <p className="text-[13px] break-all">
+                                        3EqYQ3R84RCDMu2n7anpDMxRhdK8PSWmrRC
+                                    </p>
+                                </div>
+                            </div>
                         </div>
-                        <div className="px-4 py-2 bg-secondaryColor shadow-custom w-full mt-8">
-                            <h1 className="text-2xl">Token Address</h1>
-                            <p className="text-[13px]">
-                                3EqYQ3R84RCDMu2n7anpDMxRhdK8PSWmrRC
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex-1 flex justify-center items-center sm:items-end">
-                        <img
-                            src="/teacherImage.png"
-                            alt="hero image"
-                            className="hidden sm:block sm:w-[524px] sm:h-[524px]"
-                        />
                     </div>
                 </section>
                 <section className="py-20 px-7 flex flex-col sm:flex-row justify-center items-center bg-secondaryColor sm:relative">

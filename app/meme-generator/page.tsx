@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react'
 import html2canvas from 'html2canvas'
+import path from 'path'
 
 interface TextElement {
     id: string
@@ -10,6 +11,7 @@ interface TextElement {
     width: number
     height: number
     fontSize: number
+    font: string
 }
 
 interface DraggableResizableTextProps {
@@ -18,6 +20,17 @@ interface DraggableResizableTextProps {
     onDelete: (id: string) => void
     hideBorders: boolean
 }
+
+const fontOptions = [
+    'Typewriter',
+    'Times New Roman',
+    'Comic Sans MS',
+    'Impact',
+    'Arial Black',
+    'Montserrat',
+    'Helvetica',
+    'Myriad Pro',
+]
 
 const DraggableResizableText: React.FC<DraggableResizableTextProps> = ({
     text,
@@ -131,6 +144,7 @@ const DraggableResizableText: React.FC<DraggableResizableTextProps> = ({
                     border: 'none',
                     outline: 'none',
                     fontSize: `${text.fontSize}px`,
+                    fontFamily: text.font,
                     color: 'black',
                     textShadow: 'none',
                     padding: '0',
@@ -198,10 +212,29 @@ const MemeGeneratorPage: React.FC = () => {
     const [texts, setTexts] = useState<TextElement[]>([])
     const [hideBorders, setHideBorders] = useState<boolean>(false)
     const memeRef = useRef<HTMLDivElement>(null)
+    const [templates, setTemplates] = useState<string[]>([])
 
-    const handleTemplateClick = (index: number) => {
-        setMemeImage(`/meme-templates/template${index + 1}.png`)
+    const handleTemplateClick = (templateFile: string) => {
+        setMemeImage(`/meme-templates/${templateFile}`)
     }
+
+    useEffect(() => {
+        // Fetch the list of templates from an API endpoint
+        const fetchTemplates = async () => {
+            try {
+                const response = await fetch('/api/meme-templates')
+                if (!response.ok) {
+                    throw new Error('Failed to fetch templates')
+                }
+                const data = await response.json()
+                setTemplates(data)
+            } catch (error) {
+                console.error('Error fetching templates:', error)
+            }
+        }
+
+        fetchTemplates()
+    }, [])
 
     const addNewText = () => {
         const newText: TextElement = {
@@ -212,6 +245,7 @@ const MemeGeneratorPage: React.FC = () => {
             width: 200,
             height: 50,
             fontSize: 20,
+            font: 'Arial',
         }
         setTexts([...texts, newText])
     }
@@ -231,27 +265,56 @@ const MemeGeneratorPage: React.FC = () => {
     const downloadMeme = () => {
         // Temporarily hide borders and resize handles
         setHideBorders(true)
-
-        // Use setTimeout to ensure the state update is reflected in the DOM
         setTimeout(() => {
-            // Capture the meme area
-            html2canvas(memeRef.current!)
-                .then((canvas) => {
-                    const link = document.createElement('a')
-                    link.download = 'meme.png'
-                    link.href = canvas.toDataURL()
-                    link.click()
-                })
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .catch((error: any) => {
-                    console.error('Failed to capture meme image', error)
-                })
-                .finally(() => {
-                    // Restore borders and resize handles after capturing
-                    setHideBorders(false)
-                })
-        }, 100) // 100ms delay should be sufficient, but you can adjust if needed
+            if (memeRef.current) {
+                html2canvas(memeRef.current, { useCORS: true, scale: 2 })
+                    .then((canvas) => {
+                        // Convert canvas to blob
+                        canvas.toBlob((blob) => {
+                            if (blob) {
+                                // Create object URL
+                                const url = URL.createObjectURL(blob)
+
+                                // Create temporary link and trigger download
+                                const link = document.createElement('a')
+                                link.href = url
+                                link.download = 'meme.png'
+                                document.body.appendChild(link)
+                                link.click()
+                                document.body.removeChild(link)
+
+                                // Clean up object URL
+                                URL.revokeObjectURL(url)
+                            }
+                        }, 'image/png')
+                    })
+                    .catch((error: any) => {
+                        console.error('Failed to capture meme image', error)
+                    })
+                    .finally(() => {
+                        setHideBorders(false)
+                    })
+            }
+        }, 100)
     }
+
+    useEffect(() => {
+        // Fetch the list of templates from an API endpoint
+        const fetchTemplates = async () => {
+            try {
+                const response = await fetch('/api/meme-templates')
+                if (!response.ok) {
+                    throw new Error('Failed to fetch templates')
+                }
+                const data = await response.json()
+                setTemplates(data)
+            } catch (error) {
+                console.error('Error fetching templates:', error)
+            }
+        }
+
+        fetchTemplates()
+    }, [])
 
     return (
         <div className="flex flex-col lg:flex-row items-start mx-auto my-4 lg:my-14 bg-secondaryColor font-[family-name:var(--font-gloriahallelujah-sans)] max-w-[1000px] px-4 lg:px-0">
@@ -279,29 +342,18 @@ const MemeGeneratorPage: React.FC = () => {
             </section>
 
             {/* Right Section */}
-            <section className="border-4 border-black w-full lg:w-auto p-4 lg:px-16 lg:py-10 lg:border-l-0 relative flex flex-col gap-4 justify-center h-auto lg:h-[500px]">
-                <h1 className="text-center lg:absolute lg:-top-8 lg:left-1/2 lg:-translate-x-1/2 t-font-bold bg-primaryColor rounded-lg px-5 py-4 shadow-black shadow-custom mb-4 lg:mb-0">
-                    SEND A MEME
-                </h1>
-                <button
-                    className="bg-primaryColor px-4 py-3 rounded-lg w-full lg:w-auto"
-                    onClick={downloadMeme}
-                >
-                    Download Meme
-                </button>
+            <section className="border-4 border-black w-full lg:w-auto p-4 lg:px-16 lg:py-10 lg:border-l-0 relative flex flex-col gap-4 justify-start h-auto lg:h-[500px] overflow-y-auto">
                 <div className="flex flex-col gap-3">
                     <h1 className="text-2xl">Templates</h1>
-                    <div className="flex flex-row gap-3 justify-center lg:justify-start flex-wrap">
-                        {[1, 2, 3].map((key, index) => (
+                    <div className="flex flex-row gap-3 justify-center lg:justify-start flex-wrap overflow-y-auto max-h-[240px]">
+                        {templates.map((template, index) => (
                             <div
-                                key={key}
-                                className="w-[80px] h-[80px] border-2 border-black cursor-pointer"
-                                onClick={() => handleTemplateClick(index)}
+                                key={index}
+                                className="w-[80px] h-[80px] border-2 border-black cursor-pointer flex-shrink-0"
+                                onClick={() => handleTemplateClick(template)}
                             >
                                 <img
-                                    src={`/meme-templates/template${
-                                        index + 1
-                                    }.png`}
+                                    src={`/meme-templates/${template}`}
                                     className="w-full h-full object-contain"
                                     alt={`Template ${index + 1}`}
                                 />
@@ -309,15 +361,57 @@ const MemeGeneratorPage: React.FC = () => {
                         ))}
                     </div>
                 </div>
-                <div className="flex flex-col lg:flex-row gap-3 items-center">
-                    <h1 className="text-2xl">Text</h1>
-                    <button
-                        className="bg-primaryColor px-4 py-3 rounded-lg w-full lg:w-auto"
-                        onClick={addNewText}
-                    >
-                        Add New Text
-                    </button>
+                <div className="flex flex-col gap-3">
+                    <div className="flex flex-row justify-between items-center">
+                        <h1 className="text-2xl">Text</h1>
+                        <button
+                            className="bg-primaryColor px-4 py-2 rounded-lg"
+                            onClick={addNewText}
+                        >
+                            Add New Text
+                        </button>
+                    </div>
+                    {texts.map((text, index) => (
+                        <div
+                            key={text.id}
+                            className="flex flex-row items-center gap-2"
+                        >
+                            <input
+                                type="text"
+                                value={text.content}
+                                onChange={(e) =>
+                                    updateText({
+                                        ...text,
+                                        content: e.target.value,
+                                    })
+                                }
+                                className="flex-grow bg-white border border-gray-300 rounded px-2 py-1"
+                            />
+                            <select
+                                value={text.font}
+                                onChange={(e) =>
+                                    updateText({
+                                        ...text,
+                                        font: e.target.value,
+                                    })
+                                }
+                                className="bg-white border border-gray-300 rounded px-2 py-1"
+                            >
+                                {fontOptions.map((font) => (
+                                    <option key={font} value={font}>
+                                        {font}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    ))}
                 </div>
+                <button
+                    className="bg-primaryColor px-4 py-3 rounded-lg w-full lg:w-auto"
+                    onClick={downloadMeme}
+                >
+                    Download Meme
+                </button>
             </section>
         </div>
     )
