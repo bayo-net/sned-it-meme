@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useRef, useEffect } from 'react'
 import html2canvas from 'html2canvas'
-import path from 'path'
 
 interface TextElement {
     id: string
@@ -288,8 +287,11 @@ const MemeGeneratorPage: React.FC = () => {
                             }
                         }, 'image/png')
                     })
-                    .catch((error: any) => {
+                    .catch((error: unknown) => {
                         console.error('Failed to capture meme image', error)
+                        if (error instanceof Error) {
+                            console.error('Error message:', error.message)
+                        }
                     })
                     .finally(() => {
                         setHideBorders(false)
@@ -371,7 +373,7 @@ const MemeGeneratorPage: React.FC = () => {
                             Add New Text
                         </button>
                     </div>
-                    {texts.map((text, index) => (
+                    {texts.map((text) => (
                         <div
                             key={text.id}
                             className="flex flex-row items-center gap-2"
