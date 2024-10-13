@@ -1,4 +1,5 @@
 'use client'
+
 import React, { useState, useRef, useEffect } from 'react'
 import html2canvas from 'html2canvas'
 
@@ -11,6 +12,7 @@ interface TextElement {
     height: number
     fontSize: number
     font: string
+    color: 'black' | 'white'
 }
 
 interface DraggableResizableTextProps {
@@ -144,8 +146,9 @@ const DraggableResizableText: React.FC<DraggableResizableTextProps> = ({
                     outline: 'none',
                     fontSize: `${text.fontSize}px`,
                     fontFamily: text.font,
-                    color: 'black',
-                    textShadow: 'none',
+                    color: text.color,
+                    textShadow:
+                        text.color === 'white' ? '1px 1px 2px black' : 'none',
                     padding: '0',
                 }}
             />
@@ -245,6 +248,7 @@ const MemeGeneratorPage: React.FC = () => {
             height: 50,
             fontSize: 20,
             font: 'Arial',
+            color: 'black',
         }
         setTexts([...texts, newText])
     }
@@ -262,27 +266,20 @@ const MemeGeneratorPage: React.FC = () => {
     }
 
     const downloadMeme = () => {
-        // Temporarily hide borders and resize handles
         setHideBorders(true)
         setTimeout(() => {
             if (memeRef.current) {
                 html2canvas(memeRef.current, { useCORS: true, scale: 2 })
                     .then((canvas) => {
-                        // Convert canvas to blob
                         canvas.toBlob((blob) => {
                             if (blob) {
-                                // Create object URL
                                 const url = URL.createObjectURL(blob)
-
-                                // Create temporary link and trigger download
                                 const link = document.createElement('a')
                                 link.href = url
                                 link.download = 'meme.png'
                                 document.body.appendChild(link)
                                 link.click()
                                 document.body.removeChild(link)
-
-                                // Clean up object URL
                                 URL.revokeObjectURL(url)
                             }
                         }, 'image/png')
@@ -300,27 +297,8 @@ const MemeGeneratorPage: React.FC = () => {
         }, 100)
     }
 
-    useEffect(() => {
-        // Fetch the list of templates from an API endpoint
-        const fetchTemplates = async () => {
-            try {
-                const response = await fetch('/api/meme-templates')
-                if (!response.ok) {
-                    throw new Error('Failed to fetch templates')
-                }
-                const data = await response.json()
-                setTemplates(data)
-            } catch (error) {
-                console.error('Error fetching templates:', error)
-            }
-        }
-
-        fetchTemplates()
-    }, [])
-
     return (
         <div className="flex flex-col lg:flex-row items-start mx-auto my-4 lg:my-14 bg-secondaryColor font-[family-name:var(--font-gloriahallelujah-sans)] max-w-[1000px] px-4 lg:px-0">
-            {/* Left Section - Meme Generator */}
             <section
                 ref={memeRef}
                 className="border-4 border-black w-full lg:w-[500px] h-[300px] lg:h-[500px] relative overflow-hidden flex-shrink-0 mb-4 lg:mb-0"
@@ -343,7 +321,6 @@ const MemeGeneratorPage: React.FC = () => {
                 ))}
             </section>
 
-            {/* Right Section */}
             <section className="border-4 border-black w-full lg:w-auto p-4 lg:px-16 lg:py-10 lg:border-l-0 relative flex flex-col gap-4 justify-start h-auto lg:h-[500px] overflow-y-auto">
                 <div className="flex flex-col gap-3">
                     <h1 className="text-2xl">Templates</h1>
@@ -374,10 +351,7 @@ const MemeGeneratorPage: React.FC = () => {
                         </button>
                     </div>
                     {texts.map((text) => (
-                        <div
-                            key={text.id}
-                            className="flex flex-row items-center gap-2"
-                        >
+                        <div key={text.id} className="flex flex-col gap-2">
                             <input
                                 type="text"
                                 value={text.content}
@@ -389,22 +363,52 @@ const MemeGeneratorPage: React.FC = () => {
                                 }
                                 className="flex-grow bg-white border border-gray-300 rounded px-2 py-1"
                             />
-                            <select
-                                value={text.font}
-                                onChange={(e) =>
-                                    updateText({
-                                        ...text,
-                                        font: e.target.value,
-                                    })
-                                }
-                                className="bg-white border border-gray-300 rounded px-2 py-1"
-                            >
-                                {fontOptions.map((font) => (
-                                    <option key={font} value={font}>
-                                        {font}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="flex flex-row gap-2">
+                                <select
+                                    value={text.font}
+                                    onChange={(e) =>
+                                        updateText({
+                                            ...text,
+                                            font: e.target.value,
+                                        })
+                                    }
+                                    className="bg-white border border-gray-300 rounded px-2 py-1"
+                                >
+                                    {fontOptions.map((font) => (
+                                        <option key={font} value={font}>
+                                            {font}
+                                        </option>
+                                    ))}
+                                </select>
+                                <input
+                                    type="number"
+                                    value={text.fontSize}
+                                    onChange={(e) =>
+                                        updateText({
+                                            ...text,
+                                            fontSize: parseInt(e.target.value),
+                                        })
+                                    }
+                                    className="w-20 bg-white border border-gray-300 rounded px-2 py-1"
+                                    min="8"
+                                    max="72"
+                                />
+                                <select
+                                    value={text.color}
+                                    onChange={(e) =>
+                                        updateText({
+                                            ...text,
+                                            color: e.target.value as
+                                                | 'black'
+                                                | 'white',
+                                        })
+                                    }
+                                    className="bg-white border border-gray-300 rounded px-2 py-1"
+                                >
+                                    <option value="black">Black</option>
+                                    <option value="white">White</option>
+                                </select>
+                            </div>
                         </div>
                     ))}
                 </div>
