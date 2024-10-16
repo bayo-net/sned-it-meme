@@ -134,10 +134,30 @@ const DraggableResizableText: React.FC<DraggableResizableTextProps> = ({
                 handleStart(touch.clientX, touch.clientY, 'drag')
             }}
         >
+            <div
+                style={{
+                    width: '100%',
+                    height: '100%',
+                    fontSize: `${text.fontSize}px`,
+                    fontFamily: text.font,
+                    color: text.color,
+                    textShadow:
+                        text.color === 'white' ? '1px 1px 2px black' : 'none',
+                    padding: '0',
+                    whiteSpace: 'pre-wrap',
+                    wordBreak: 'break-word',
+                    overflow: 'hidden',
+                }}
+            >
+                {text.content}
+            </div>
             <textarea
                 value={text.content}
                 onChange={(e) => onUpdate({ ...text, content: e.target.value })}
                 style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
                     width: '100%',
                     height: '100%',
                     resize: 'none',
@@ -146,9 +166,8 @@ const DraggableResizableText: React.FC<DraggableResizableTextProps> = ({
                     outline: 'none',
                     fontSize: `${text.fontSize}px`,
                     fontFamily: text.font,
-                    color: text.color,
-                    textShadow:
-                        text.color === 'white' ? '1px 1px 2px black' : 'none',
+                    color: 'transparent',
+                    caretColor: text.color,
                     padding: '0',
                 }}
             />
