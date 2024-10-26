@@ -19,11 +19,13 @@ export default function Home() {
                     <section className="py-14 px-7 flex flex-col justify-center items-center sm:flex sm:flex-row sm:gap-6 sm:h-full sm:-translate-y-20">
                         <div className="flex flex-col justify-center">
                             <h1 className="text-center text-2xl sm:text-5xl sm:leading-[107.05px] sm:text-start">
-                                Hello my name Sned. <br />I want to go home.{' '}
-                                <br /> Come with me?
+                                Hello my name{' '}
+                                <span className="font-extrabold! uppercase">
+                                    Sned.
+                                </span>
                             </h1>
-                            <button className="bg-primaryColor text-2xl text-center w-full px-5 py-2 shadow-black shadow-custom sm:w-[333px]">
-                                Buy Token
+                            <button className="bg-primaryColor text-2xl text-center w-full px-5 py-2 sm:w-[333px] border-black border-2 rounded-lg">
+                                Sned it
                             </button>
                         </div>
                         <img
@@ -49,19 +51,15 @@ export default function Home() {
                             About
                         </h1>
                         <h1 className="text-center text-[19px] py-6 sm:text-start sm:leading-[47.58px] sm:text-wrap text-2xl">
-                            Sned has one simple mission: to make it back to my
+                            Sned come to earth.
                             <span className="hidden sm:inline">
                                 <br />
                             </span>
-                            home in space. But me cant do it alone. By joining
+                            Want adventure.
                             <span className="hidden sm:inline">
                                 <br />
                             </span>
-                            my mission and buying $sned, you’ll help propel Sned
-                            <span className="hidden sm:inline">
-                                <br />
-                            </span>
-                            back into the stars where I belongs.
+                            Time to Sned it’
                             <span className="hidden sm:inline">
                                 <br />
                             </span>
@@ -71,7 +69,7 @@ export default function Home() {
                             alt="hero image"
                             className="sm:hidden sm:w-[512px] sm:h-[512px]"
                         />
-                        <button className="bg-primaryColor text-2xl text-center w-full px-5 py-2 shadow-black shadow-custom sm:w-[333px]">
+                        <button className="bg-primaryColor text-2xl text-center w-full px-5 py-2 border-black border-2 rounded-lg sm:w-[333px]">
                             Buy
                         </button>
                     </div>
@@ -83,8 +81,8 @@ export default function Home() {
                             Token
                         </h1>
                         <h1 className="text-center text-[19px] mb-8 sm:text-2xl sm:leading-[47.58px] max-w-2xl mx-auto">
-                            Sned made 420 million $sned tokens and me want to
-                            share them with as many degens as possible.
+                            Me made 1 billion $SNED tokens and want to share
+                            them with as many frens as possible.
                         </h1>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 w-full">
                             <Image
@@ -164,10 +162,11 @@ export default function Home() {
                         Meme Machine
                     </h1>
                     <h1 className="text-center text-[19px] py-6">
-                        Create your own memes using our meme machine and engage!
+                        Create your own memes using Sneds’ out of this world
+                        Meme Machine
                     </h1>
                     <button
-                        className="bg-primaryColor text-2xl text-center w-full px-5 py-2 shadow-black shadow-custom
+                        className="bg-primaryColor text-2xl text-center w-full px-5 py-2 border-black border-2 rounded-lg
                     "
                         onClick={handleClick}
                     >
@@ -197,14 +196,14 @@ export default function Home() {
                             Socials
                         </h1>
                         <h1 className="text-center text-[19px] py-6">
-                            Join the mission today
+                            Join me and my frens
                         </h1>
                         <div className="w-fit flex flex-row gap-5 py-5">
                             <FaTelegram className="h-14 w-14" />
                             <FaSquareXTwitter className="h-14 w-14" />
                         </div>
                         <button
-                            className="bg-secondaryColor text-2xl text-center w-full px-5 py-2 shadow-black shadow-custom sm:w-[333px]
+                            className="bg-secondaryColor text-2xl text-center w-full px-5 py-2 border-black border-2 rounded-lg sm:w-[333px]
                     "
                         >
                             Buy

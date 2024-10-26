@@ -288,20 +288,68 @@ const MemeGeneratorPage: React.FC = () => {
         setHideBorders(true)
         setTimeout(() => {
             if (memeRef.current) {
-                html2canvas(memeRef.current, { useCORS: true, scale: 2 })
+                const outputSize = 600 // Fixed size for output
+                const elementWidth = memeRef.current.offsetWidth
+                const elementHeight = memeRef.current.offsetHeight
+                const aspectRatio = elementWidth / elementHeight
+
+                let captureWidth, captureHeight
+                if (aspectRatio > 1) {
+                    captureWidth = elementWidth
+                    captureHeight = elementWidth / aspectRatio
+                } else {
+                    captureHeight = elementHeight
+                    captureWidth = elementHeight * aspectRatio
+                }
+
+                html2canvas(memeRef.current, {
+                    useCORS: true,
+                    width: captureWidth,
+                    height: captureHeight,
+                    backgroundColor: null, // Ensure transparent background
+                })
                     .then((canvas) => {
-                        canvas.toBlob((blob) => {
-                            if (blob) {
-                                const url = URL.createObjectURL(blob)
-                                const link = document.createElement('a')
-                                link.href = url
-                                link.download = 'meme.png'
-                                document.body.appendChild(link)
-                                link.click()
-                                document.body.removeChild(link)
-                                URL.revokeObjectURL(url)
-                            }
-                        }, 'image/png')
+                        // Create a new square canvas
+                        const outputCanvas = document.createElement('canvas')
+                        outputCanvas.width = outputSize
+                        outputCanvas.height = outputSize
+                        const ctx = outputCanvas.getContext('2d')
+
+                        if (ctx) {
+                            // Fill the background with white
+                            ctx.fillStyle = 'white'
+                            ctx.fillRect(0, 0, outputSize, outputSize)
+
+                            // Calculate positioning to center the image
+                            const scale = Math.min(
+                                outputSize / captureWidth,
+                                outputSize / captureHeight
+                            )
+                            const x = (outputSize - captureWidth * scale) / 2
+                            const y = (outputSize - captureHeight * scale) / 2
+
+                            // Draw the captured image onto the new canvas, centered
+                            ctx.drawImage(
+                                canvas,
+                                x,
+                                y,
+                                captureWidth * scale,
+                                captureHeight * scale
+                            )
+
+                            outputCanvas.toBlob((blob) => {
+                                if (blob) {
+                                    const url = URL.createObjectURL(blob)
+                                    const link = document.createElement('a')
+                                    link.href = url
+                                    link.download = 'meme.png'
+                                    document.body.appendChild(link)
+                                    link.click()
+                                    document.body.removeChild(link)
+                                    URL.revokeObjectURL(url)
+                                }
+                            }, 'image/png')
+                        }
                     })
                     .catch((error: unknown) => {
                         console.error('Failed to capture meme image', error)

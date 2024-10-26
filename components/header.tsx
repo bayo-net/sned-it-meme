@@ -25,12 +25,15 @@ const Header = () => {
             `}
         >
             {/* Main Socials */}
-            <img
-                src="/logo.png"
-                alt="headerlogo"
-                className="w-12 h-12 cursor-pointer"
-                onClick={() => router.push('/')}
-            />
+            <div className="flex flex-row justify-center items-center gap-2">
+                <img
+                    src="/logo.png"
+                    alt="headerlogo"
+                    className="w-12 h-12 cursor-pointer"
+                    onClick={() => router.push('/')}
+                />
+                <h1 className="text-3xl">SNED</h1>
+            </div>
 
             <div className="flex items-center gap-10">
                 <div className="gap-3 flex items-center">
