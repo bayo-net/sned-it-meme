@@ -114,7 +114,7 @@ export default function Home() {
                 <section className="py-20 px-7 flex flex-col sm:flex-row justify-center items-center bg-secondaryColor sm:relative">
                     <div>
                         <img
-                            src="/buyImage.png"
+                            src="/cockpit.png"
                             alt="buy image"
                             className="sm:w-[512px] sm:h-[512px] hidden sm:block"
                         />
